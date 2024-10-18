@@ -15,9 +15,7 @@
 - ☁️ **Dự báo thời tiết** với API từ **OpenWeather**
 
 ## 🎥 Video Demo
-[![Xem video Demo](https://drive.google.com/drive/folders/1OrnXuLSIHXpWI4-G8qu7wVqbpVL7m4Yy?usp=sharing)
-
-> **Lưu ý:** Nhấp vào hình trên để xem video demo trực tiếp trên YouTube.
+[![Xem video Demo](https://drive.google.com/drive/folders/1OrnXuLSIHXpWI4-G8qu7wVqbpVL7m4Yy?usp=sharing)](https://drive.google.com/drive/folders/1OrnXuLSIHXpWI4-G8qu7wVqbpVL7m4Yy?usp=sharing)
 
 ## 🚀 Hướng dẫn sử dụng
 ### 1. Clone dự án về máy
