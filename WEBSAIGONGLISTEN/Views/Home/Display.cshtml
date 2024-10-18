@@ -1,0 +1,39 @@
+﻿@model WEBSAIGONGLISTEN.Models.Product
+@{
+    ViewData["Title"] = "Hiển thị gói du lịch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="text-center">@ViewData["Title"]</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card bg-light shadow mb-4">
+                <div class="card-header">
+                    <h3 class="text-primary">Thông tin cơ bản</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">1. Tên: @Model.Name</h4>
+                    <h4 class="card-title">2. Giá: @Model.Price</h4>
+                    <h4 class="card-title">3. Số lượng còn lại: @Model.Quantity</h4>
+                    <!-- 3. Hình ảnh -->
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div>
+                            <h4 class="card-title">3. Hình ảnh:</h4>
+                            <img src="@Model.ImageUrl" alt="Hình ảnh sản phẩm" class="img-fluid rounded" style="max-width: 200px;" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-primary btn-block mt-3">Quay lại danh sách</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+
+

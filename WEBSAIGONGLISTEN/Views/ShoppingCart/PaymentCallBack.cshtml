@@ -1,0 +1,69 @@
+﻿@* @model WEBSAIGONGLISTEN.Models.Momo.MomoExecuteResponseModel
+
+@{
+    ViewData["Title"] = "Home Page";
+    var postUrl = "tich-hop-thanh-toan-momo-voi-asp-net-core-7d5e4hP";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Thanh toán Momo</h1>
+
+    <div class="container">
+        <h1 class="text-success">Thanh Toán Thành Công</h1>
+        <p>Order ID: <strong>@Model.UserID</strong></p>
+        <p>Amount: <strong>@Model.TotalPrice</strong></p>
+        <p>Order Info: <strong>@Model.OrderInfo</strong></p>   
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+         
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+} *@
+
+@model WEBSAIGONGLISTEN.Models.Momo.MomoExecuteResponseModel
+
+@{
+    ViewData["Title"] = "Thanh toán Momo";
+    var postUrl = "tich-hop-thanh-toan-momo-voi-asp-net-core-7d5e4hP";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 text-success animated fadeInDown">Thanh toán Momo</h1>
+
+    <div class="card shadow-lg my-4">
+        <div class="card-body">
+            <h2 class="text-success">🎉 Thanh Toán Thành Công 🎉</h2>
+            <p class="lead">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+            <p>Order ID: <strong>@Model.UserID</strong></p>
+            <p>Amount: <strong>@Model.TotalPrice</strong></p>
+            <p>Order Info: <strong>@Model.OrderInfo</strong></p>   
+
+            <img src="https://media.giphy.com/media/xT9IgH2q8uN1lD5E4A/giphy.gif" class="img-fluid mt-3" alt="Thanh toán thành công" style="max-width: 300px; border-radius: 15px;" />
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button class="btn btn-primary btn-lg" onclick="window.location.href='@Url.Action("Index", "Home")'">Quay lại trang chủ</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Hiệu ứng cho tiêu đề
+        $('.display-4').addClass('animated bounceIn');
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "RecordVideo";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Screen Recording Example</h2>
+
+<!-- Button to start recording -->
+<button class="record-btn">Start Recording</button>
+
+<!-- Video element to display the recorded video -->
+<video controls autoplay></video>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let btn = document.querySelector(".record-btn");
+        let video = document.querySelector("video");
+
+        if (!btn || !video) {
+            console.error("Required elements (button or video) not found in the DOM.");
+            return;
+        }
+
+        btn.addEventListener("click", async function () {
+            try {
+                let stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true
+                });
+
+                // Check for browser support of MIME types
+                const mime = MediaRecorder.isTypeSupported("video/webm; codecs=vp9")
+                    ? "video/webm; codecs=vp9"
+                    : "video/webm";
+
+                let mediaRecorder = new MediaRecorder(stream, { mimeType: mime });
+                let chunks = [];
+
+                mediaRecorder.addEventListener("dataavailable", function (e) {
+                    chunks.push(e.data);
+                });
+
+                mediaRecorder.addEventListener("stop", function () {
+                    let blob = new Blob(chunks, { type: chunks[0].type });
+                    let url = URL.createObjectURL(blob);
+
+                    // Set the video source to the blob URL
+                    video.src = url;
+
+                    // Create a link to download the video
+                    let a = document.createElement("a");
+                    a.href = url;
+                    a.download = "recording.webm";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a); // Remove the link after download
+                });
+
+                // Start recording
+                mediaRecorder.start();
+
+                // Stop recording after 10 seconds
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                }, 10000); // Adjust the timeout as needed
+            } catch (error) {
+                console.error("Error during screen recording:", error);
+                alert("Screen recording failed. Please check permissions and try again.");
+            }
+        });
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

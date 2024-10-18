@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Dự báo thời tiết";
+}
+
+<!-- Thêm Font Awesome và Google Fonts -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- CSS tùy chỉnh -->
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #eef2f3;
+    }
+
+    .weather-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 600px;
+        margin: 50px auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .weather-title {
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 25px;
+        color: #3498db;
+    }
+
+    .form-control, .btn, .form-select {
+        border-radius: 50px;
+        height: 45px;
+    }
+
+    .weather-info {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .weather-icon {
+        font-size: 60px;
+        color: #f39c12;
+        margin-bottom: 10px;
+    }
+
+    .weather-details h4 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .weather-details p {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .input-group-text {
+        border-radius: 50px;
+    }
+
+    .separator {
+        height: 2px;
+        background-color: #ddd;
+        margin: 15px 0;
+    }
+</style>
+
+<!-- Thêm jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Tìm kiếm khi nhấn Enter
+        $("#cityInput").on("keydown", function (event) {
+            if (event.key === "Enter") {
+                getWeatherForecast();
+            }
+        });
+
+        // Cập nhật dự báo khi người dùng chọn số ngày
+        $("#daysInput").on("change", function () {
+            getWeatherForecast();
+        });
+    });
+
+    async function getWeatherForecast() {
+        let city = document.getElementById("cityInput").value;
+        
+        // Xử lý chuỗi: chuyển về chữ thường, loại bỏ khoảng trắng thừa, bỏ dấu tiếng Việt
+        city = removeVietnameseTones(city.toLowerCase().trim());
+        
+        // Thêm 'Vietnam' để đảm bảo tìm kiếm trong phạm vi Việt Nam
+        city = `${city},vn`; 
+        
+        const selectedDay = document.getElementById("daysInput").value;
+        const apiKey = 'c7055ce01673bc05bf8af1cb09e60bd2'; // Thay bằng API key của bạn
+        const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=240&appid=${apiKey}&units=metric`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Không tìm thấy địa danh hoặc thông tin thời tiết.');
+            }
+            const data = await response.json();
+            displayWeatherForecast(data, selectedDay);
+        } catch (error) {
+            document.getElementById("weatherInfo").innerHTML = `<p>${error.message}</p>`;
+        }
+    }
+
+    function displayWeatherForecast(data, selectedDay) {
+        let forecastHTML = `<h3>Dự báo thời tiết cho ${data.city.name}</h3>`;
+        const dayIndex = (selectedDay - 1) * 8; // Chỉ lấy thông tin cho ngày được chọn
+        const dailyData = data.list[dayIndex];
+        const date = new Date(dailyData.dt_txt);
+        const weatherDescription = dailyData.weather[0].description;
+        const temperature = dailyData.main.temp;
+        const humidity = dailyData.main.humidity;
+
+        forecastHTML += `
+            <div class="weather-icon">
+                <i class="fas fa-cloud-sun"></i>
+            </div>
+            <div class="weather-details">
+                <h4>${date.toLocaleDateString()}</h4>
+                <p>${weatherDescription}</p>
+                <p>Nhiệt độ: ${temperature} °C</p>
+                <p>Độ ẩm: ${humidity}%</p>
+            </div>
+            <div class="separator"></div>
+        `;
+
+        document.getElementById("weatherInfo").innerHTML = forecastHTML;
+    }
+
+    // Hàm loại bỏ dấu tiếng Việt
+    function removeVietnameseTones(str) {
+        str = str.replace(/[\u0300-\u036f]/g, ""); // Loại bỏ dấu
+        str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        str = str.replace(/đ/g, "d").replace(/Đ/g, "D");
+        return str;
+    }
+</script>
+
+<!-- Form nhập thành phố và chọn ngày -->
+<div class="weather-container">
+    <div class="weather-title">Dự báo thời tiết tại Việt Nam</div>
+    
+    <div class="input-group mb-3">
+        <input type="text" id="cityInput" class="form-control" placeholder="Nhập tên thành phố, làng, hoặc khu vực..." aria-label="City" aria-describedby="button-addon2">
+        <button class="btn btn-primary" type="button" onclick="getWeatherForecast()">Tìm kiếm</button>
+    </div>
+    
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="daysInput">Chọn số ngày</label>
+        <select id="daysInput" class="form-select">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <option value="@i">@i ngày</option>
+            }
+        </select>
+    </div>
+    
+    <div id="weatherInfo" class="weather-info"></div>
+</div>

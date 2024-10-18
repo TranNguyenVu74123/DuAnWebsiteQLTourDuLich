@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-6">
+        <h3>Biểu đồ cột</h3>
+        <canvas id="barChart" width="200" height="110" style="width: 197px; height: 110px;"></canvas>
+    </div>
+
+    <div class="col-6">
+        <h3>Biểu đồ tròn</h3>
+        <canvas id="pieChart" width="200" height="110" style="width: 197px; height: 110px;"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Dashboard/GetTotalOders",
+            data: "",
+            contextType: "application/json; charset=utf8",
+            dataType: "json",
+            success: OnSuccess,
+        });
+
+        function OnSuccess(data) {
+            const barChart = document.getElementById('barChart');
+            const pieChart = document.getElementById('pieChart');
+
+            var _data = data;
+            var _labels = _data[0];
+            var _ChartData = _data[1];
+            var colors = [
+                'rgba(255, 255, 0, 0.4)',     // Màu vàng
+                'rgba(255, 182, 193, 0.4)',  // Màu hồng nhạt
+                'rgba(135, 206, 235, 0.4)', // Màu xanh da trời nhạt
+                'rgba(152, 251, 152, 0.4)',  // Màu xanh lá cây nhạt
+                'rgba(255, 228, 196, 0.4)' // Màu da cam nhạt
+            ];
+
+            new Chart(barChart,
+                {
+                    type: 'bar',
+                    data: {
+                        labels: _labels,
+                        datasets: [{
+                            backgroundColor: colors,
+                            data: _ChartData,
+                            borderWidth: 1,
+                        }]
+                    }
+                });
+
+            new Chart(pieChart,
+                {
+                    type: 'pie',
+                    data: {
+                        labels: _labels,
+                        datasets: [{
+                            backgroundColor: colors,
+                            data: _ChartData,
+                            borderWidth: 1,
+                        }]
+                    }
+                });
+        }
+    });
+</script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

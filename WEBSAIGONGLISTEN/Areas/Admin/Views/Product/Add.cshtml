@@ -1,0 +1,70 @@
+﻿@model WEBSAIGONGLISTEN.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Thêm gói du lịch";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>@ViewData["Title"]</h2>
+<form asp-action="Add" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name">Tên sản phẩm</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price">Giá</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Mô tả</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryId">Khu vực</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUrl">Hình ảnh sản phẩm</label>
+        <input type="file" asp-for="ImageUrl" class="form-control" id="imageInput" onchange="previewImage()" />
+    </div>
+    <div id="imagePreview" style="max-width:200px;"></div>
+
+      <!-- Thêm trường Số lượng sản phẩm -->
+    <div class="form-group">
+        <label asp-for="Quantity">Số lượng sản phẩm</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+   
+
+    <button type="submit" class="btn btn-primary">Thêm</button>
+</form>
+
+<script>
+    function previewImage() {
+        var preview = document.getElementById("imagePreview");
+        var file = document.getElementById("imageInput").files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            var img = new Image();
+            img.src = reader.result;
+            img.style.maxWidth = "200px";
+            preview.innerHTML = "";
+            preview.appendChild(img);
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = "";
+        }
+    }
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
