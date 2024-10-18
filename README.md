@@ -15,7 +15,7 @@
 - ☁️ **Dự báo thời tiết** với API từ **OpenWeather**
 
 ## 🎥 Video Demo
-[![Xem video Demo](https://img.youtube.com/vi/<video_id>/maxresdefault.jpg)](https://www.youtube.com/watch?v=<video_id>)
+[![Xem video Demo](https://drive.google.com/drive/folders/1OrnXuLSIHXpWI4-G8qu7wVqbpVL7m4Yy?usp=sharing)
 
 > **Lưu ý:** Nhấp vào hình trên để xem video demo trực tiếp trên YouTube.
 
