@@ -1,4 +1,4 @@
-# DoAnWebsiteQuanLyTourDuLich
+# DuAnWebsiteQuanLyTourDuLich
 
 ## 🌍 Giới thiệu
 **DoAnWebsiteQuanLyTourDuLich** là một hệ thống quản lý tour du lịch được phát triển bằng **ASP.NET Core**. Hệ thống này giúp quản lý các tour du lịch, cho phép đặt vé trực tuyến, và theo dõi lịch trình dễ dàng. Ngoài ra, dự án còn tích hợp nhiều tính năng hiện đại như **OAuth**, **API kết nối bên ngoài**, và giao diện thân thiện với người dùng. 🚀
