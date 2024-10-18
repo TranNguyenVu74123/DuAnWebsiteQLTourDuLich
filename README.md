@@ -23,4 +23,4 @@
 ### 1. Clone dự án về máy
 Để tải và chạy dự án, bạn cần clone repository này về máy:
    ```bash
-   git clone [https://github.com/TranNguyenVu74123/DoAnWebsiteQuanLyTourDuLich.git](https://github.com/TranNguyenVu74123/DuAnWebsiteQLTourDuLich.git)
+   git clone https://github.com/TranNguyenVu74123/DuAnWebsiteQLTourDuLich.git
